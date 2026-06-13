@@ -1,6 +1,6 @@
 class AppRoutes {
   static const splash = '/';
-  static const onboarding = '/onboarding';
+  static const hatching = '/hatching';
   static const home = '/home';
   static const play = '/play';
   static const story = '/story';
