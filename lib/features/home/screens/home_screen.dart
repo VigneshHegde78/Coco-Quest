@@ -1,11 +1,19 @@
+import 'package:cocoquest/core/game_progress.dart';
+import 'package:cocoquest/features/achievements/screens/achievement_screen.dart';
 import 'package:cocoquest/features/play/screens/play_screen.dart';
+import 'package:cocoquest/features/explore/screens/explore_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/home_action_card.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -25,7 +33,22 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset('assets/images/rewards.png', width: 60),
+                    GestureDetector(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const AchievementScreen(),
+                          ),
+                        );
+
+                        setState(() {});
+                      },
+                      child: Image.asset(
+                        'assets/images/rewards.png',
+                        width: 60,
+                      ),
+                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -36,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "⭐ 0",
+                        "⭐ ${GameProgress.stars}",
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -69,10 +92,23 @@ class HomeScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (_) => const PlayScreen()),
                       );
+                      setState(() {});
                     },
                   ),
 
-                  HomeActionCard(name: "camera", onTap: () {}),
+                  HomeActionCard(
+                    name: "camera",
+                    onTap: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ExploreScreen(),
+                        ),
+                      );
+
+                      setState(() {});
+                    },
+                  ),
                 ],
               ),
             ],

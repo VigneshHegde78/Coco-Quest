@@ -1,6 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import '../../../core/game_progress.dart';
 
 class PlayScreen extends StatefulWidget {
   const PlayScreen({super.key});
@@ -10,9 +10,8 @@ class PlayScreen extends StatefulWidget {
 }
 
 class _PlayScreenState extends State<PlayScreen> {
-  int stars = 0;
   int targetNumber = 0;
-
+  int stars = 0;
   List<int> balloons = [];
 
   bool showSuccess = false;
@@ -47,7 +46,7 @@ class _PlayScreenState extends State<PlayScreen> {
     setState(() {});
   }
 
-  void selectNumber(int number) {
+  void selectNumber(int number) async {
     if (number == targetNumber) {
       setState(() {
         stars++;
@@ -55,6 +54,10 @@ class _PlayScreenState extends State<PlayScreen> {
         showCelebration = true;
         showError = false;
       });
+
+      GameProgress.stars++;
+      GameProgress.balloonsPopped++;
+      await GameProgress.save();
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (!mounted) return;
@@ -103,7 +106,7 @@ class _PlayScreenState extends State<PlayScreen> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
-              "⭐ $stars",
+              "⭐ ${GameProgress.stars}",
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),

@@ -1,8 +1,13 @@
+import 'package:cocoquest/core/game_progress.dart';
 import 'package:flutter/material.dart';
 
 import 'core/routes/app_router.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await GameProgress.load();
+
   runApp(const CocoQuestApp());
 }
 
