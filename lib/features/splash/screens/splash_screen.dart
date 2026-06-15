@@ -24,7 +24,9 @@ class _SplashScreenState extends State<SplashScreen>
     controller.forward();
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, AppRoutes.hatching);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, AppRoutes.hatching);
+      }
     });
   }
 

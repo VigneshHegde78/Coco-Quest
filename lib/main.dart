@@ -6,7 +6,11 @@ import 'core/routes/app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await GameProgress.load();
+  try {
+    await GameProgress.load();
+  } catch (e) {
+    print("Failed to load game progress: $e");
+  }
 
   runApp(const CocoQuestApp());
 }

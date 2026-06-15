@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiService {
-  static const apiKey = 'Gemini API Key Here';
+  static const apiKey = 'GEMINI_API_KEY';
 
   static Future<String> identifyObject(String imagePath) async {
     final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: apiKey);

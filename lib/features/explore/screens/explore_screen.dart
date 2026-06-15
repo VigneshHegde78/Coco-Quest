@@ -41,11 +41,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   void processResult(String result) async {
+    if (result.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Oops! Something went wrong. Try again!")),
+      );
+      return;
+    }
+
+    bool matched = false;
+
     for (final item in missions) {
       if (item.found) continue;
 
       for (final keyword in item.keywords) {
         if (result.contains(keyword)) {
+          matched = true;
           setState(() {
             item.found = true;
           });
@@ -58,6 +68,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
           if (missions.every((m) => m.found)) {
             Future.delayed(const Duration(milliseconds: 500), () async {
+              if (!mounted) return;
               GameProgress.missionsCompleted++;
               showMissionComplete();
               await GameProgress.save();
@@ -67,6 +78,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
           return;
         }
       }
+    }
+
+    if (!matched) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Hmm... that doesn't look like what we're looking for!")),
+      );
     }
   }
 
@@ -205,10 +222,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     MaterialPageRoute(builder: (_) => const CameraScreen()),
                   );
 
+                  if (!mounted) return;
+
                   if (imagePath != null) {
                     final result = await GeminiService.identifyObject(
                       imagePath,
                     );
+
+                    if (!mounted) return;
 
                     print(result);
 
